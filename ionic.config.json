@@ -1,5 +1,7 @@
 {
   "name": "budgeteer",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }
