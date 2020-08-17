@@ -1,3 +1,5 @@
+@import '../../theme/variables.scss';
+
 #container {
   text-align: center;
 
@@ -24,4 +26,8 @@
 
 #container a {
   text-decoration: none;
+}
+
+.sidenav-header {
+  background-color: $primary-light;
 }

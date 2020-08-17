@@ -1,0 +1,24 @@
+@import '~@angular/material/theming';
+@import './variables.scss';
+
+$theme-primary: (
+  default: $primary,
+  lighter: $primary-light,
+  darker: $primary-dark,
+  text: $primary,
+  default-contrast: $light-primary-text,
+  lighter-contrast: $dark-primary-text,
+  darker-contrast: $light-primary-text,
+);
+
+$theme-secondary: (
+  default: $secondary,
+  lighter: $secondary-light,
+  darker: $secondary-dark,
+  text: $secondary,
+  default-contrast: $light-primary-text,
+  lighter-contrast: $dark-primary-text,
+  darker-contrast: $light-primary-text,
+);
+
+$app-theme: mat-light-theme($theme-primary, $theme-secondary, mat-palette($mat-red));
