@@ -1,5 +1,7 @@
-<div fxLayout="column" fxLayoutAlign="center center" style="width: 100%; height: 100%">
-  <h2 class="mat-title">Dashboard</h2>
+<div *ngIf="(api.mainTransactions | async)?.length === 0" class="gray wrapper" fxLayout="column"
+  fxLayoutAlign="center center">
+  <mat-icon svgIcon="wallet-outline"></mat-icon>
+  Brak transakcji
 </div>
 
 <button mat-fab color="accent" class="br-fab">

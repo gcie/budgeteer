@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Wallet } from 'src/app/core/model/wallet';
+import { Component } from '@angular/core';
 import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
@@ -7,12 +6,6 @@ import { ApiService } from 'src/app/core/services/api.service';
   templateUrl: './wallets-view.component.html',
   styleUrls: ['./wallets-view.component.scss'],
 })
-export class WalletsViewComponent implements OnInit {
-  wallets: Wallet[];
-
-  constructor(private apiService: ApiService) {}
-
-  async ngOnInit() {
-    this.apiService.getWallets().subscribe((wallets) => (this.wallets = wallets));
-  }
+export class WalletsViewComponent {
+  constructor(public api: ApiService) {}
 }
