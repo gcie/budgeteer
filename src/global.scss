@@ -37,3 +37,13 @@
 button app-icon svg {
   transform: translate(4px, 5px);
 }
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.br-fab {
+  position: absolute !important;
+  left: calc(100vw - 72px);
+  top: calc(100vh - 128px);
+}

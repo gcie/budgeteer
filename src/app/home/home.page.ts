@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { database } from 'firebase';
 import { AuthService } from '../core/services/auth.service';
 
 @Component({
@@ -10,20 +9,10 @@ import { AuthService } from '../core/services/auth.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  constructor(public authService: AuthService, private router: Router, private menu: MenuController) {
-    // this.authService.currentUser.displayName;
-  }
+  constructor(public authService: AuthService, private router: Router, private menu: MenuController) {}
 
-  ngOnInit() {}
-
-  test() {
-    const db = database();
-    const newKey = db.ref().child('wallets').push().key;
-    db.ref('/wallets/' + newKey).set({
-      id: newKey,
-      owner: 'gxciesielski@gmail.com',
-      transactions: [],
-    });
+  ngOnInit() {
+    // this.redirect('/wallets');
   }
 
   openMenu() {
@@ -31,6 +20,11 @@ export class HomePage implements OnInit {
   }
 
   redirect(route: string) {
+    this.menu.close('mainMenu');
     this.router.navigateByUrl(route);
+  }
+
+  logout() {
+    this.authService.signOut();
   }
 }

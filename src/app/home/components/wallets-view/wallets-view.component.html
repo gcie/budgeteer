@@ -1,0 +1,36 @@
+<div *ngIf="wallets && wallets.length === 0" class="no-wallets wrapper" fxLayout="column" fxLayoutAlign="center center">
+  <mat-icon svgIcon="wallet-outline"></mat-icon>
+  Brak portfeli
+</div>
+<div class="wrapper" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="8px">
+
+  <mat-card *ngFor="let wallet of wallets">
+    <mat-card-content fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" style="padding-left: 8px">
+      <h2 class="mat-title no-margin">{{ wallet.name }}</h2>
+      <div fxFlex></div>
+      <button mat-icon-button [matMenuTriggerFor]="walletMenu">
+        <mat-icon svgIcon="dots-vertical"></mat-icon>
+      </button>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+<mat-menu #walletMenu="matMenu">
+  <!-- <button mat-menu-item>
+    <mat-icon svgIcon="wallet"></mat-icon>
+    <span>Ustaw jako główny</span>
+  </button> -->
+  <button mat-menu-item>
+    <mat-icon svgIcon="pencil"></mat-icon>
+    <span>Zmień nazwę</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon svgIcon="delete"></mat-icon>
+    <span>Usuń</span>
+  </button>
+</mat-menu>
+
+<button mat-fab color="accent" class="br-fab">
+  <mat-icon svgIcon="wallet-plus"></mat-icon>
+</button>

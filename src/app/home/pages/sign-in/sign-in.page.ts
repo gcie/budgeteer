@@ -28,27 +28,10 @@ export class SignInPage implements OnInit, OnDestroy {
   }
 
   googleSignIn() {
-    this.authService.googleSignIn().subscribe(console.log);
-
-    // this.authService
-    //   .signInWithGoogle()
-    //   .then((result: any) => {
-    //     if (result.additionalUserInfo) {
-    //       this.authService.setProviderAdditionalInfo(result.additionalUserInfo.profile);
-    //     }
-    //     // this.redirectLoggedUserToProfilePage();
-    //   })
-    //   .catch((error) => {
-    //     // Handle Errors here.
-    //     console.warn(error);
-    //   });
+    this.authService.googleSignIn();
   }
 
   redirectLoggedUserToProfilePage() {
     this.ngZone.run(() => this.router.navigateByUrl('/home'));
-  }
-
-  redirect(route: string) {
-    this.router.navigateByUrl(route);
   }
 }

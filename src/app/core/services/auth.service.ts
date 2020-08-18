@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { cfaSignInGoogle, cfaSignOut, mapUserToUserInfo } from 'capacitor-firebase-auth';
-import { UserInfo } from 'firebase';
-import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { cfaSignIn, cfaSignOut, mapUserToUserInfo } from 'capacitor-firebase-auth';
+import { auth, UserInfo } from 'firebase';
+import { BehaviorSubject, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -10,17 +11,33 @@ import { tap } from 'rxjs/operators';
 export class AuthService {
   currentUser$: BehaviorSubject<UserInfo> = new BehaviorSubject(null);
 
-  constructor() {}
+  constructor(private router: Router) {
+    auth().onAuthStateChanged((authState) => {
+      mapUserToUserInfo()(of(authState)).subscribe((user: UserInfo) => {
+        this.currentUser = user;
+        console.log('[authStateChanged] user:');
+        console.log(user);
+      });
+    });
+  }
 
   public googleSignIn() {
-    return cfaSignInGoogle().pipe(
-      mapUserToUserInfo(),
-      tap((user: UserInfo) => (this.currentUser = user))
-    );
+    if (auth().currentUser) {
+      this.currentUser = auth().currentUser;
+    }
+    cfaSignIn('google.com')
+      .pipe(
+        mapUserToUserInfo(),
+        tap((user: UserInfo) => (this.currentUser = user)),
+        tap(() => this.router.navigateByUrl('/'))
+      )
+      .subscribe();
   }
 
   public signOut() {
-    return cfaSignOut().pipe(tap(() => (this.currentUser = null)));
+    cfaSignOut()
+      .pipe(tap(() => this.router.navigateByUrl('/sign-in')))
+      .subscribe();
   }
 
   public get currentUser() {
