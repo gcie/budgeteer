@@ -18,7 +18,7 @@ export class CategoryPipe implements PipeTransform {
     donation: 'Darowizna',
   };
 
-  transform(value: string): string {
+  transform(value?: string): string {
     if (Object.keys(this.categoryToWord).includes(value)) {
       return this.categoryToWord[value];
     }

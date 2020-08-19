@@ -1,0 +1,12 @@
+@import '../../../../theme/variables.scss';
+
+mat-card {
+  padding: 8px;
+}
+
+.success {
+  color: $success;
+}
+.warn {
+  color: $warn;
+}

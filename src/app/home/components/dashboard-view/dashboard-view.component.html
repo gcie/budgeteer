@@ -4,14 +4,12 @@
   Brak transakcji
 </div>
 
-<!-- <mat-list *ngIf="(api.mainTransactions | async)?.length > 0">
-  <mat-list-item *ngFor="let transaction of (api.mainTransactions | async)">
-    <h4 matLine>{{ transaction.category }}</h4>
-    <p matLine>test</p>
-  </mat-list-item>
-</mat-list> -->
+<div *ngIf="(api.mainTransactions | async)?.length > 0" fxLayout="column" fxLayoutAlign="start stretch"
+  fxLayoutGap="4px" style="padding: 4px;">
+  <app-month-summary></app-month-summary>
 
-<app-expense-list *ngIf="(api.mainTransactions | async)?.length > 0"></app-expense-list>
+  <app-expense-list *ngIf="(api.mainTransactions | async)?.length > 0"></app-expense-list>
+</div>
 
 <button mat-fab color="accent" class="br-fab" (click)="newTransaction()">
   <mat-icon svgIcon="plus"></mat-icon>
