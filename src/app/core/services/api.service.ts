@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { auth, database } from 'firebase';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { ProfileData } from '../model/profile-data';
 import { Transaction } from '../model/transaction';
 import { Wallet } from '../model/wallet';
@@ -59,27 +59,12 @@ export class ApiService {
     database().ref(`wallets/${walletId}/transactions/${transactionId}`).remove();
   }
 
-  getTransactions(walletId: string): Observable<Transaction[]> {
-    return new Observable((subscriber) => {
-      database()
-        .ref(`wallets/${walletId}/transactions`)
-        .once(
-          'value',
-          (transactions) => {
-            subscriber.next(transactions?.val() || []);
-            subscriber.complete();
-          },
-          subscriber.error
-        );
-    });
-  }
-
   getTransactions$(walletId: string): Subject<Transaction[]> {
     const transactions$ = new BehaviorSubject([]);
     database()
       .ref(`wallets/${walletId}/transactions`)
       .on('value', (data) => {
-        const transactions = (Object.values(data?.val()) || []) as Transaction[];
+        const transactions = data.val() ? (Object.values(data.val()) as Transaction[]) : [];
         transactions.forEach((t) => (t.date = new Date(t.date)));
         transactions$.next(transactions.sort((b, a) => a.date.getTime() - b.date.getTime()));
       });
@@ -114,7 +99,7 @@ export class ApiService {
         }
         this.mainTransactionsDbRef = database().ref(`wallets/${profile.mainWallet}/transactions`);
         this.mainTransactionsDbRef.on('value', (data) => {
-          const transactions = (Object.values(data?.val()) || []) as Transaction[];
+          const transactions = data.val() ? (Object.values(data.val()) as Transaction[]) : [];
           transactions.forEach((t) => (t.date = new Date(t.date)));
           this.mainTransactions.next(transactions.sort((b, a) => a.date.getTime() - b.date.getTime()));
         });

@@ -1,14 +1,24 @@
-<div *ngIf="(api.mainTransactions | async)?.length === 0" class="gray home-content-wrapper" fxLayout="column"
-  fxLayoutAlign="center center">
-  <mat-icon svgIcon="wallet-outline"></mat-icon>
-  Brak transakcji
-</div>
+<div class="home-content-wrapper">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
+    <!-- <mat-select [ngModel]="activeWallet">
+      <mat-option class="qwerty" *ngFor="let wallet of (api.wallets | async)" [value]="wallet.id">
+        {{ wallet.name }}
+      </mat-option>
+    </mat-select> -->
+  </div>
 
-<div *ngIf="(api.mainTransactions | async)?.length > 0" fxLayout="column" fxLayoutAlign="start stretch"
-  fxLayoutGap="4px" style="padding: 4px;">
-  <app-month-summary></app-month-summary>
+  <div *ngIf="(api.mainTransactions | async)?.length === 0" class="gray" style="width: 100%; height: 100%"
+    fxLayout="column" fxLayoutAlign="center center">
+    <mat-icon svgIcon="wallet-outline"></mat-icon>
+    Brak transakcji
+  </div>
 
-  <app-expense-list *ngIf="(api.mainTransactions | async)?.length > 0"></app-expense-list>
+  <div *ngIf="(api.mainTransactions | async)?.length > 0" fxLayout="column" fxLayoutAlign="start stretch"
+    fxLayoutGap="4px">
+    <app-month-summary></app-month-summary>
+
+    <app-expense-list *ngIf="(api.mainTransactions | async)?.length > 0"></app-expense-list>
+  </div>
 </div>
 
 <button mat-fab color="accent" class="br-fab" (click)="newTransaction()">

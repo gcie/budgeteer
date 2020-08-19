@@ -4,7 +4,8 @@
   Brak portfeli
 </div>
 
-<div class="home-content-wrapper" fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="8px">
+<div *ngIf="(api.wallets | async)?.length > 0" class="home-content-wrapper" fxLayout="column"
+  fxLayoutAlign="start stretch" fxLayoutGap="8px">
 
   <mat-card *ngFor="let wallet of (api.wallets | async)">
     <mat-card-content fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" style="padding-left: 8px">

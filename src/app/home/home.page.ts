@@ -20,20 +20,30 @@ export const slideInAnimation = trigger('routeAnimations', [
     query(':enter', [animate('300ms ease-out', style({ top: '0%' }))]),
     query(':enter', animateChild()),
   ]),
-  transition('NewTransactionDialog => HomePage, EditTransactionDialog => HomePage', [
-    style({ position: 'relative' }),
-    query(':enter, :leave', [
-      style({
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-      }),
-    ]),
-    query(':leave', [animate('300ms ease-out', style({ top: '100%' }))]),
-    query(':leave', animateChild()),
-  ]),
+  // transition('NewTransactionDialog => HomePage, EditTransactionDialog => HomePage', [
+  //   style({ position: 'relative' }),
+  //   query(':enter', [
+  //     style({
+  //       position: 'absolute',
+  //       top: 0,
+  //       left: 0,
+  //       width: '100%',
+  //       height: 0,
+  //     }),
+  //   ]),
+  //   query(':leave', [
+  //     style({
+  //       position: 'absolute',
+  //       top: 0,
+  //       left: 0,
+  //       width: '100%',
+  //       height: '100%',
+  //     }),
+  //   ]),
+  //   query(':leave', [animate('300ms ease-in', style({ top: '100%' }))]),
+  //   query(':enter', [animate('300ms ease-in', style({ height: '100%' }))]),
+  //   query(':enter, :leave', animateChild()),
+  // ]),
 ]);
 
 @Component({

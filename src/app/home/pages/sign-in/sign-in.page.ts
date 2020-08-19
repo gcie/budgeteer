@@ -32,6 +32,6 @@ export class SignInPage implements OnInit, OnDestroy {
   }
 
   redirectLoggedUserToProfilePage() {
-    this.ngZone.run(() => this.router.navigateByUrl('/home'));
+    this.ngZone.run(() => this.router.navigateByUrl('/home', { replaceUrl: true }));
   }
 }

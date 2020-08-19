@@ -23,6 +23,7 @@ export class NewTransactionDialogComponent {
       amount: new FormControl(null, Validators.required),
       date: new FormControl(new Date(), Validators.required),
       category: new FormControl(null, Validators.required),
+      description: new FormControl(''),
     });
   }
 
@@ -31,9 +32,7 @@ export class NewTransactionDialogComponent {
   }
 
   submit() {
-    if (this.transactionGroup.valid) {
-      console.log(this.transactionGroup.value);
-      // console.log(this.selectedWallets.selectedOptions.selected.map((option) => option.value));
+    if (this.transactionGroup.valid && this.selectedWallets.selectedOptions.selected.length > 0) {
       this.api.addTransaction(
         this.selectedWallets.selectedOptions.selected.map((option) => option.value),
         { ...this.transactionGroup.value, mode: this.mode }

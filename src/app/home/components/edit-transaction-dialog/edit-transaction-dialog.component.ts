@@ -13,7 +13,6 @@ import { ApiService } from 'src/app/core/services/api.service';
 export class EditTransactionDialogComponent implements OnInit {
   mode: 'income' | 'expense' = 'expense';
   walletId: string;
-
   transaction: Transaction;
 
   @ViewChild('selectedWallets') selectedWallets: MatSelectionList;
@@ -25,6 +24,7 @@ export class EditTransactionDialogComponent implements OnInit {
       amount: new FormControl(null, Validators.required),
       date: new FormControl(new Date(), Validators.required),
       category: new FormControl(null, Validators.required),
+      description: new FormControl(''),
     });
   }
 
@@ -35,11 +35,7 @@ export class EditTransactionDialogComponent implements OnInit {
 
     this.mode = this.transaction.mode || 'expense';
 
-    this.transactionGroup.patchValue({
-      amount: this.transaction.amount,
-      date: this.transaction.date,
-      category: this.transaction.category,
-    });
+    this.transactionGroup.patchValue(this.transaction);
   }
 
   cancel() {
@@ -48,9 +44,7 @@ export class EditTransactionDialogComponent implements OnInit {
 
   update() {
     if (this.transactionGroup.valid) {
-      console.log(this.transactionGroup.value);
-      console.log(this.walletId);
-      this.api.updateTransaction(this.walletId, { ...this.transactionGroup.value, mode: this.mode });
+      this.api.updateTransaction(this.walletId, { ...this.transactionGroup.value, mode: this.mode, id: this.transaction.id });
       this.location.back();
     }
   }

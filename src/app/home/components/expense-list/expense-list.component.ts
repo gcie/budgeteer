@@ -18,7 +18,6 @@ export class ExpenseListComponent implements OnInit {
 
   ngOnInit() {
     this.transactions = this.walletId ? this.api.getTransactions$(this.walletId) : this.api.mainTransactions;
-    this.transactions.subscribe(console.warn);
   }
 
   editTransaction(transaction: Transaction) {
