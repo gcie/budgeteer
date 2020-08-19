@@ -39,7 +39,9 @@
 
 
 <ion-content [fullscreen]="true" id="mainContent">
+  <div style="width: 100%; height: 100%" [@routeAnimations]="prepareRoute(outlet)">
 
-  <router-outlet></router-outlet>
+    <router-outlet #outlet="outlet"></router-outlet>
+  </div>
 
 </ion-content>

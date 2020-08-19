@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { database } from 'firebase';
 import { ApiService } from 'src/app/core/services/api.service';
 
@@ -7,11 +8,19 @@ import { ApiService } from 'src/app/core/services/api.service';
   templateUrl: './dashboard-view.component.html',
   styleUrls: ['./dashboard-view.component.scss'],
 })
-export class DashboardViewComponent {
-  constructor(public api: ApiService) {}
+export class DashboardViewComponent implements OnInit {
+  constructor(public api: ApiService, public router: Router) {}
+
+  ngOnInit() {
+    // this.newTransaction();
+  }
 
   test() {
     const newKey = database().ref('wallets').push().key;
     console.log(newKey);
+  }
+
+  newTransaction() {
+    this.router.navigateByUrl('/new-transaction');
   }
 }

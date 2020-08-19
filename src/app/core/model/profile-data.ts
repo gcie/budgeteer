@@ -3,4 +3,5 @@ export class ProfileData {
   id: string;
   mainWallet: string;
   wallets: string[];
+  activeWallets: string[];
 }

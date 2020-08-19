@@ -1,0 +1,10 @@
+@import '../../../../theme/variables.scss';
+
+.right-align {
+  text-align: right;
+}
+
+.active-button {
+  background-color: $primary;
+  color: #ffffff;
+}

@@ -1,9 +1,16 @@
-<div *ngIf="(api.mainTransactions | async)?.length === 0" class="gray wrapper" fxLayout="column"
+<div *ngIf="(api.mainTransactions | async)?.length === 0" class="gray home-content-wrapper" fxLayout="column"
   fxLayoutAlign="center center">
   <mat-icon svgIcon="wallet-outline"></mat-icon>
   Brak transakcji
 </div>
 
-<button mat-fab color="accent" class="br-fab">
+<!-- <mat-list *ngIf="(api.mainTransactions | async)?.length > 0">
+  <mat-list-item *ngFor="let transaction of (api.mainTransactions | async)">
+    <h4 matLine>{{ transaction.category }}</h4>
+    <p matLine>test</p>
+  </mat-list-item>
+</mat-list> -->
+
+<button mat-fab color="accent" class="br-fab" (click)="newTransaction()">
   <mat-icon svgIcon="plus"></mat-icon>
 </button>

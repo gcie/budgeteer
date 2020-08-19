@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconRegistry } from '@angular/material/icon';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,8 +21,24 @@ firebase.initializeApp(environment.firebase);
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [CoreModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrowserAnimationsModule, HttpClientModule, SharedModule],
-  providers: [StatusBar, SplashScreen, AuthService, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  imports: [
+    CoreModule,
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    SharedModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
+  providers: [
+    StatusBar,
+    SplashScreen,
+    AuthService,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: LOCALE_ID, useValue: 'pl' },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

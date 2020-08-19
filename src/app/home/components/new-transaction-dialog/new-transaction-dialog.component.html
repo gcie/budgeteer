@@ -1,0 +1,78 @@
+<div style="width: 100%; height: 100%; background-color: white" fxLayout="column" fxLayoutAlign="start stretch"
+    fxLayoutGap="8px">
+    <!-- <mat-tab-group class="full-tab-group-2" backgroundColor="primary" style="height: 100%">
+        <mat-tab label="Wydatek" style="height: 100%"> -->
+    <form style="width: 100%; height: 100%; padding: 8px" fxLayout="column" fxLayoutAlign="start stretch"
+        [formGroup]="transactionGroup">
+        <div style="width: 100%; margin-bottom: 16px" fxFlex="none" fxLayout="row" fxLayoutGap="8px">
+            <button mat-raised-button fxFlex="50" [ngClass]="{'active-button': mode === 'expense'}"
+                (click)="mode = 'expense'">Wydatek</button>
+            <button mat-raised-button fxFlex="50" [ngClass]="{'active-button': mode === 'income'}"
+                (click)="mode = 'income'">Dochód</button>
+        </div>
+
+        <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+            <mat-icon svgIcon="cash-usd-outline"></mat-icon>
+            <mat-form-field>
+                <input matInput class="right-align" placeholder="Wartość" type="number" autocomplete="off" type="number"
+                    formControlName="amount">
+            </mat-form-field>
+            <span class="mat-body">zł</span>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+            <mat-icon svgIcon="calendar"></mat-icon>
+            <mat-form-field>
+                <mat-label>Data</mat-label>
+                <input matInput [matDatepicker]="picker" autocomplete="off" (click)="picker.open()"
+                    formControlName="date">
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+            <mat-icon svgIcon="menu"></mat-icon>
+            <mat-form-field>
+                <mat-label>Kategoria</mat-label>
+                <mat-select *ngIf="mode === 'expense'" formControlName="category">
+                    <mat-option value="food">Jedzenie</mat-option>
+                    <mat-option value="clothes">Ubrania</mat-option>
+                    <mat-option value="equipment">Sprzęty</mat-option>
+                    <mat-option value="entertainment">Rozrywka</mat-option>
+                    <mat-option value="bills">Rachunki</mat-option>
+                    <mat-option value="transport">Transport</mat-option>
+                    <mat-option value="gifts">Prezenty</mat-option>
+                    <mat-option value="travels">Podróże</mat-option>
+                    <mat-option value="other">Inne</mat-option>
+                </mat-select>
+                <mat-select *ngIf="mode === 'income'" formControlName="category">
+                    <mat-option value="salary">Pensja</mat-option>
+                    <mat-option value="donation">Darownizna</mat-option>
+                    <mat-option value="other">Inne</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <mat-selection-list dense #selectedWallets>
+            <h3 matSubheader>Portfele</h3>
+            <mat-list-option *ngFor="let wallet of (api.wallets | async)" [value]="wallet.id"
+                [selected]="(api.profile | async).activeWallets?.includes(wallet.id)">
+                {{ wallet.name }}
+            </mat-list-option>
+        </mat-selection-list>
+
+        <div fxFlex></div>
+
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <button mat-button (click)="cancel()">Anuluj</button>
+            <button mat-raised-button color="primary" type="submit" (click)="submit()"
+                [disabled]="!transactionGroup.valid">Zatwierdź</button>
+        </div>
+    </form>
+    <!-- </mat-tab>
+        <mat-tab label="Dochód"></mat-tab>
+    </mat-tab-group> -->
+
+</div>

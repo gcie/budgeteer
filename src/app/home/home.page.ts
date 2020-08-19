@@ -1,12 +1,32 @@
+import { animate, animateChild, query, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AuthService } from '../core/services/auth.service';
+
+export const slideInAnimation = trigger('routeAnimations', [
+  transition('HomePage => NewTransactionDialog', [
+    style({ position: 'relative' }),
+    query(':enter, :leave', [
+      style({
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+      }),
+    ]),
+    query(':enter', [style({ top: '100%' })]),
+    query(':enter', [animate('300ms ease-out', style({ top: '0%' }))]),
+    query(':enter', animateChild()),
+  ]),
+]);
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
+  animations: [slideInAnimation],
 })
 export class HomePage implements OnInit {
   constructor(public authService: AuthService, private router: Router, private menu: MenuController) {}
@@ -17,6 +37,10 @@ export class HomePage implements OnInit {
 
   openMenu() {
     this.menu.open('mainMenu');
+  }
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData.animation;
   }
 
   redirect(route: string) {

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">budgeteer</string>
-    <string name="title_activity_main">budgeteer</string>
+    <string name="app_name">Budżeter</string>
+    <string name="title_activity_main">Budżeter</string>
     <string name="package_name">com.gciesielski.budgeteer</string>
     <string name="custom_url_scheme">com.gciesielski.budgeteer</string>
 </resources>

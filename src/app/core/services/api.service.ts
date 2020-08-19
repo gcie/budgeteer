@@ -23,6 +23,30 @@ export class ApiService {
     this.profileInit();
     this.walletsInit();
     this.mainTransactionsInit();
+    this.mainTransactions.subscribe(console.log);
+  }
+
+  updateUserData(userData: Partial<ProfileData>) {
+    database().ref(`users/${auth().currentUser.uid}`).update(userData);
+  }
+
+  addTransaction(walletIds: string[], transaction: Transaction) {
+    // save last used wallets
+    this.updateUserData({ activeWallets: walletIds });
+
+    // add transaction to each wallet
+    walletIds.forEach((walletId) => {
+      console.log(transaction.date.toJSON());
+      const dbRef = database().ref(`wallets/${walletId}/transactions`);
+      const newKey = dbRef.push().key;
+      dbRef.child(newKey).set({
+        id: newKey,
+        amount: transaction.amount,
+        date: transaction.date.toJSON(),
+        category: transaction.category,
+        description: transaction.description || '',
+      });
+    });
   }
 
   getTransactions(walletId: string): Observable<Transaction[]> {
@@ -44,8 +68,10 @@ export class ApiService {
     const transactions$ = new BehaviorSubject([]);
     database()
       .ref(`wallets/${walletId}/transactions`)
-      .on('value', (transactions) => {
-        transactions$.next(transactions?.val() || []);
+      .on('value', (data) => {
+        const transactions = (Object.values(data?.val()) || []) as Transaction[];
+        transactions.forEach((t) => (t.date = new Date(t.date)));
+        transactions$.next(transactions);
       });
     return transactions$;
   }
@@ -77,8 +103,10 @@ export class ApiService {
           this.mainTransactionsDbRef.off();
         }
         this.mainTransactionsDbRef = database().ref(`wallets/${profile.mainWallet}/transactions`);
-        this.mainTransactionsDbRef.on('value', (transactions) => {
-          this.mainTransactions.next(transactions.val() || []);
+        this.mainTransactionsDbRef.on('value', (data) => {
+          const transactions = (Object.values(data?.val()) || []) as Transaction[];
+          transactions.forEach((t) => (t.date = new Date(t.date)));
+          this.mainTransactions.next(transactions);
         });
       }
     });
