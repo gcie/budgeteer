@@ -2,6 +2,7 @@ import { animate, animateChild, query, style, transition, trigger } from '@angul
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { ApiService } from '../core/services/api.service';
 import { AuthService } from '../core/services/auth.service';
 
 export const slideInAnimation = trigger('routeAnimations', [
@@ -53,7 +54,7 @@ export const slideInAnimation = trigger('routeAnimations', [
   animations: [slideInAnimation],
 })
 export class HomePage implements OnInit {
-  constructor(public authService: AuthService, private router: Router, private menu: MenuController) {}
+  constructor(public authService: AuthService, private router: Router, private menu: MenuController, public api: ApiService) {}
 
   ngOnInit() {
     // this.redirect('/wallets');

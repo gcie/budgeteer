@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable, zip } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Transaction } from '../model/transaction';
+import { Wallet } from '../model/wallet';
 import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MainWalletService {
+  wallet: Observable<Wallet>;
   walletId: Observable<string>;
   allTransactions: Observable<Transaction[]>;
   currentMonthTransactions: Observable<Transaction[]>;
@@ -19,7 +21,8 @@ export class MainWalletService {
   constructor(private api: ApiService) {
     this.allTransactions = this.api.mainTransactions;
     this.currentMonthTransactions = this.api.mainTransactions.pipe(map(this.filterCurrentMonth));
-    this.walletId = this.api.profile.pipe(map((profile) => profile.mainWallet));
+    this.wallet = this.api.mainWallet;
+    this.wallet.subscribe(console.warn);
 
     this.currentMonthIncome = this.currentMonthTransactions.pipe(
       map(this.filterMode('income')),

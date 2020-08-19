@@ -1,11 +1,17 @@
 <div style="width: 100%; height: 100%; background-color: white" fxLayout="column" fxLayoutAlign="start stretch"
   fxLayoutGap="8px">
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="cancel()">
+      <mat-icon svgIcon="close"></mat-icon>
+    </button>
+    Nowa transakcja
+  </mat-toolbar>
   <form style="width: 100%; height: 100%; padding: 8px" fxLayout="column" fxLayoutAlign="start stretch"
     [formGroup]="transactionGroup">
     <div style="width: 100%; margin-bottom: 16px" fxFlex="none" fxLayout="row" fxLayoutGap="8px">
-      <button mat-raised-button fxFlex="50" [ngClass]="{'active-button': mode === 'expense'}"
+      <button mat-raised-button fxFlex="50" [ngClass]="{'active-button-expense': mode === 'expense'}"
         (click)="mode = 'expense'">Wydatek</button>
-      <button mat-raised-button fxFlex="50" [ngClass]="{'active-button': mode === 'income'}"
+      <button mat-raised-button fxFlex="50" [ngClass]="{'active-button-income': mode === 'income'}"
         (click)="mode = 'income'">Dochód</button>
     </div>
 
@@ -49,7 +55,6 @@
       </mat-form-field>
     </div>
 
-
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
       <mat-icon svgIcon="pencil"></mat-icon>
       <mat-form-field>
@@ -61,14 +66,20 @@
 
     <mat-divider></mat-divider>
 
+    <mat-selection-list #selectedWallets>
+      <h3 matSubheader>Portfele</h3>
+      <mat-list-option *ngFor="let wallet of (api.wallets | async)" [value]="wallet.id"
+        [selected]="(api.profile | async).activeWallets?.includes(wallet.id)">
+        {{ wallet.name }}
+      </mat-list-option>
+    </mat-selection-list>
+
     <div fxFlex></div>
 
-    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="8px">
+    <div fxLayout="row" fxLayoutAlign="end center">
       <button mat-button (click)="cancel()">Anuluj</button>
-      <button mat-raised-button color="warn" type="submit" (click)="delete()"
-        [disabled]="!transactionGroup.valid">Usuń</button>
-      <button mat-raised-button color="primary" type="submit" (click)="update()"
-        [disabled]="!transactionGroup.valid">Zapisz zmiany</button>
+      <button mat-raised-button color="primary" type="submit" (click)="submit()"
+        [disabled]="!transactionGroup.valid">Zatwierdź</button>
     </div>
   </form>
 

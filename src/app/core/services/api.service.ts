@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { auth, database } from 'firebase';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ProfileData } from '../model/profile-data';
 import { Transaction } from '../model/transaction';
 import { Wallet } from '../model/wallet';
@@ -11,18 +12,20 @@ import { Wallet } from '../model/wallet';
 export class ApiService {
   private profileDbRef: database.Reference;
   private walletsDbRef: database.Reference;
-  private mainTransactionsDbRef: database.Reference;
+  private mainWalletDbRef: database.Reference;
 
   private mainWalletId: string;
 
   profile: BehaviorSubject<ProfileData> = new BehaviorSubject(null);
   wallets: BehaviorSubject<Wallet[]> = new BehaviorSubject(null);
-  mainTransactions: BehaviorSubject<Transaction[]> = new BehaviorSubject(null);
+  mainWallet: BehaviorSubject<Wallet> = new BehaviorSubject(null);
+  mainTransactions: Observable<Transaction[]> = new BehaviorSubject(null);
 
   constructor() {
     this.profileInit();
     this.walletsInit();
-    this.mainTransactionsInit();
+    this.mainWalletInit();
+    this.mainTransactions = this.mainWallet.pipe(map((wallet) => wallet?.transactions));
   }
 
   updateUserData(userData: Partial<ProfileData>) {
@@ -88,20 +91,22 @@ export class ApiService {
     });
   }
 
-  private mainTransactionsInit() {
+  private mainWalletInit() {
     this.profile.subscribe((profile) => {
       if (!profile || !profile.mainWallet) {
         return;
       } else if (profile.mainWallet !== this.mainWalletId) {
         this.mainWalletId = profile.mainWallet;
-        if (this.mainTransactionsDbRef) {
-          this.mainTransactionsDbRef.off();
-        }
-        this.mainTransactionsDbRef = database().ref(`wallets/${profile.mainWallet}/transactions`);
-        this.mainTransactionsDbRef.on('value', (data) => {
-          const transactions = data.val() ? (Object.values(data.val()) as Transaction[]) : [];
-          transactions.forEach((t) => (t.date = new Date(t.date)));
-          this.mainTransactions.next(transactions.sort((b, a) => a.date.getTime() - b.date.getTime()));
+        this.mainWalletDbRef?.off();
+        this.mainWalletDbRef = database().ref(`wallets/${profile.mainWallet}`);
+        this.mainWalletDbRef.on('value', (data) => {
+          const wallet = data.val();
+          wallet.transactions = wallet.transactions ? Object.values(wallet.transactions) : [];
+          wallet.transactions.forEach((tr) => {
+            tr.date = new Date(tr.date);
+          });
+          wallet.transactions = wallet.transactions.sort((b, a) => a.date.getTime() - b.date.getTime());
+          this.mainWallet.next(wallet);
         });
       }
     });

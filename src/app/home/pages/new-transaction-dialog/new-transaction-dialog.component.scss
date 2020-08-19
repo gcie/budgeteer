@@ -1,0 +1,12 @@
+@import '../../../../theme/variables.scss';
+
+.active-button {
+  &-income {
+    background-color: $success;
+    color: #ffffff;
+  }
+  &-expense {
+    background-color: $warn;
+    color: #ffffff;
+  }
+}

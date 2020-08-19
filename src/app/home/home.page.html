@@ -33,15 +33,13 @@
     <button mat-icon-button (click)="openMenu()">
       <mat-icon svgIcon="menu"></mat-icon>
     </button>
-    Budżeter
+    {{ (api.mainWallet | async)?.name }}
   </mat-toolbar>
 </ion-header>
 
 
 <ion-content [fullscreen]="true" id="mainContent">
   <div style="width: 100%; height: 100%" [@routeAnimations]="prepareRoute(outlet)">
-
     <router-outlet #outlet="outlet"></router-outlet>
   </div>
-
 </ion-content>

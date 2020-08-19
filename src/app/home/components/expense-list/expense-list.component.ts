@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Transaction } from 'src/app/core/model/transaction';
 import { ApiService } from 'src/app/core/services/api.service';
 
@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 export class ExpenseListComponent implements OnInit {
   @Input() walletId: string;
 
-  transactions: Subject<Transaction[]>;
+  transactions: Observable<Transaction[]>;
 
   constructor(public api: ApiService, private router: Router) {}
 
