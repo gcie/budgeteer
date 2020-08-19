@@ -36,8 +36,9 @@ export class NewTransactionDialogComponent {
       // console.log(this.selectedWallets.selectedOptions.selected.map((option) => option.value));
       this.api.addTransaction(
         this.selectedWallets.selectedOptions.selected.map((option) => option.value),
-        this.transactionGroup.value
+        { ...this.transactionGroup.value, mode: this.mode }
       );
+      this.location.back();
     }
   }
 }

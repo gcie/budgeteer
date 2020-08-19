@@ -23,7 +23,6 @@ export class ApiService {
     this.profileInit();
     this.walletsInit();
     this.mainTransactionsInit();
-    this.mainTransactions.subscribe(console.log);
   }
 
   updateUserData(userData: Partial<ProfileData>) {
@@ -44,6 +43,7 @@ export class ApiService {
         amount: transaction.amount,
         date: transaction.date.toJSON(),
         category: transaction.category,
+        mode: transaction.mode,
         description: transaction.description || '',
       });
     });
@@ -71,7 +71,7 @@ export class ApiService {
       .on('value', (data) => {
         const transactions = (Object.values(data?.val()) || []) as Transaction[];
         transactions.forEach((t) => (t.date = new Date(t.date)));
-        transactions$.next(transactions);
+        transactions$.next(transactions.sort((b, a) => a.date.getTime() - b.date.getTime()));
       });
     return transactions$;
   }
@@ -106,7 +106,7 @@ export class ApiService {
         this.mainTransactionsDbRef.on('value', (data) => {
           const transactions = (Object.values(data?.val()) || []) as Transaction[];
           transactions.forEach((t) => (t.date = new Date(t.date)));
-          this.mainTransactions.next(transactions);
+          this.mainTransactions.next(transactions.sort((b, a) => a.date.getTime() - b.date.getTime()));
         });
       }
     });

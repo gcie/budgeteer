@@ -1,0 +1,15 @@
+<div class="tr-list-wrapper" fxLayout="column">
+  <div *ngFor="let transaction of (transactions | async)" class="tr-item">
+
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div>
+        <h3 class="mat-subheading-2 no-margin tr-category">{{ transaction.category  | category }}</h3>
+        <p class="mat-small no-margin">{{ transaction.date | date }}</p>
+      </div>
+      <h2 class="mat-h2 no-margin"
+        [ngClass]="{'tr-amount-income': transaction.mode === 'income', 'tr-amount-expense': transaction.mode === 'expense' }">
+        {{ (transaction.mode === 'income' ? '+' : '-') + (transaction.amount | amount) }}</h2>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+</div>

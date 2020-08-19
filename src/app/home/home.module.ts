@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardViewComponent } from './components/dashboard-view/dashboard-view.component';
+import { ExpenseListComponent } from './components/expense-list/expense-list.component';
 import { NewTransactionDialogComponent } from './components/new-transaction-dialog/new-transaction-dialog.component';
 import { WalletsViewComponent } from './components/wallets-view/wallets-view.component';
 import { HomePageRoutingModule } from './home-routing.module';
@@ -11,6 +12,6 @@ import { HomePage } from './home.page';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule, SharedModule, ReactiveFormsModule],
-  declarations: [HomePage, DashboardViewComponent, WalletsViewComponent, NewTransactionDialogComponent],
+  declarations: [HomePage, DashboardViewComponent, WalletsViewComponent, NewTransactionDialogComponent, ExpenseListComponent],
 })
 export class HomePageModule {}

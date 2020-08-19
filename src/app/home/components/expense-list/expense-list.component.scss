@@ -1,0 +1,22 @@
+@import '../../../../theme/variables.scss';
+
+.tr-list-wrapper {
+  width: 100%;
+}
+
+.tr-item {
+  padding: 4px 8px;
+}
+
+.tr-category {
+  line-height: 16px;
+}
+
+.tr-amount {
+  &-income {
+    color: $success;
+  }
+  &-expense {
+    color: $warn;
+  }
+}

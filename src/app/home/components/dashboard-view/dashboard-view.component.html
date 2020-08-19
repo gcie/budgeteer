@@ -11,6 +11,8 @@
   </mat-list-item>
 </mat-list> -->
 
+<app-expense-list *ngIf="(api.mainTransactions | async)?.length > 0"></app-expense-list>
+
 <button mat-fab color="accent" class="br-fab" (click)="newTransaction()">
   <mat-icon svgIcon="plus"></mat-icon>
 </button>
