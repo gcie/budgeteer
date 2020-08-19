@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../core/guards/auth.guard';
 import { DashboardViewComponent } from './components/dashboard-view/dashboard-view.component';
+import { EditTransactionDialogComponent } from './components/edit-transaction-dialog/edit-transaction-dialog.component';
 import { NewTransactionDialogComponent } from './components/new-transaction-dialog/new-transaction-dialog.component';
 import { WalletsViewComponent } from './components/wallets-view/wallets-view.component';
 import { HomePage } from './home.page';
@@ -18,6 +19,7 @@ const routes: Routes = [
     children: [
       { path: 'wallets', component: WalletsViewComponent },
       { path: 'new-transaction', component: NewTransactionDialogComponent, data: { animation: 'NewTransactionDialog' } },
+      { path: 'edit-transaction', component: EditTransactionDialogComponent, data: { animation: 'EditTransactionDialog' } },
       { path: '', component: DashboardViewComponent, data: { animation: 'HomePage' } },
     ],
   },

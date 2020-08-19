@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from '../shared/shared.module';
 import { DashboardViewComponent } from './components/dashboard-view/dashboard-view.component';
+import { EditTransactionDialogComponent } from './components/edit-transaction-dialog/edit-transaction-dialog.component';
 import { ExpenseListComponent } from './components/expense-list/expense-list.component';
 import { MonthSummaryComponent } from './components/month-summary/month-summary.component';
 import { NewTransactionDialogComponent } from './components/new-transaction-dialog/new-transaction-dialog.component';
@@ -18,6 +19,7 @@ import { HomePage } from './home.page';
     DashboardViewComponent,
     WalletsViewComponent,
     NewTransactionDialogComponent,
+    EditTransactionDialogComponent,
     ExpenseListComponent,
     MonthSummaryComponent,
   ],

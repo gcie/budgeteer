@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Transaction } from 'src/app/core/model/transaction';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -13,10 +14,16 @@ export class ExpenseListComponent implements OnInit {
 
   transactions: Subject<Transaction[]>;
 
-  constructor(public api: ApiService) {}
+  constructor(public api: ApiService, private router: Router) {}
 
   ngOnInit() {
     this.transactions = this.walletId ? this.api.getTransactions$(this.walletId) : this.api.mainTransactions;
     this.transactions.subscribe(console.warn);
+  }
+
+  editTransaction(transaction: Transaction) {
+    this.router.navigateByUrl('/edit-transaction', {
+      state: { transaction, walletId: this.walletId || this.api.profile.value.mainWallet },
+    });
   }
 }

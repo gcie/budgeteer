@@ -15,9 +15,9 @@ export class ApiService {
 
   private mainWalletId: string;
 
-  profile: Subject<ProfileData> = new BehaviorSubject(null);
-  wallets: Subject<Wallet[]> = new BehaviorSubject(null);
-  mainTransactions: Subject<Transaction[]> = new BehaviorSubject(null);
+  profile: BehaviorSubject<ProfileData> = new BehaviorSubject(null);
+  wallets: BehaviorSubject<Wallet[]> = new BehaviorSubject(null);
+  mainTransactions: BehaviorSubject<Transaction[]> = new BehaviorSubject(null);
 
   constructor() {
     this.profileInit();
@@ -47,6 +47,16 @@ export class ApiService {
         description: transaction.description || '',
       });
     });
+  }
+
+  updateTransaction(walletId: string, newTransaction: Transaction) {
+    const update = newTransaction as any;
+    update.date = newTransaction.date.toJSON();
+    database().ref(`wallets/${walletId}/transactions/${newTransaction.id}`).update(update);
+  }
+
+  deleteTransaction(walletId: string, transactionId: string) {
+    database().ref(`wallets/${walletId}/transactions/${transactionId}`).remove();
   }
 
   getTransactions(walletId: string): Observable<Transaction[]> {

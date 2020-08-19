@@ -5,7 +5,7 @@ import { MenuController } from '@ionic/angular';
 import { AuthService } from '../core/services/auth.service';
 
 export const slideInAnimation = trigger('routeAnimations', [
-  transition('HomePage => NewTransactionDialog', [
+  transition('HomePage => NewTransactionDialog, HomePage => EditTransactionDialog', [
     style({ position: 'relative' }),
     query(':enter, :leave', [
       style({
@@ -19,6 +19,20 @@ export const slideInAnimation = trigger('routeAnimations', [
     query(':enter', [style({ top: '100%' })]),
     query(':enter', [animate('300ms ease-out', style({ top: '0%' }))]),
     query(':enter', animateChild()),
+  ]),
+  transition('NewTransactionDialog => HomePage, EditTransactionDialog => HomePage', [
+    style({ position: 'relative' }),
+    query(':enter, :leave', [
+      style({
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+      }),
+    ]),
+    query(':leave', [animate('300ms ease-out', style({ top: '100%' }))]),
+    query(':leave', animateChild()),
   ]),
 ]);
 

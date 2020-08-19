@@ -14,7 +14,7 @@
         <div fxFlex="none" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
             <mat-icon svgIcon="cash-usd-outline"></mat-icon>
             <mat-form-field>
-                <input matInput class="right-align" placeholder="Wartość" type="number" autocomplete="off" type="number"
+                <input matInput placeholder="Wartość" type="number" autocomplete="off" type="number"
                     formControlName="amount">
             </mat-form-field>
             <span class="mat-body">zł</span>
@@ -55,7 +55,7 @@
 
         <mat-divider></mat-divider>
 
-        <mat-selection-list dense #selectedWallets>
+        <mat-selection-list #selectedWallets>
             <h3 matSubheader>Portfele</h3>
             <mat-list-option *ngFor="let wallet of (api.wallets | async)" [value]="wallet.id"
                 [selected]="(api.profile | async).activeWallets?.includes(wallet.id)">
