@@ -22,7 +22,6 @@ export class MainWalletService {
     this.allTransactions = this.api.mainTransactions;
     this.currentMonthTransactions = this.api.mainTransactions.pipe(map(this.filterCurrentMonth));
     this.wallet = this.api.mainWallet;
-    this.wallet.subscribe(console.warn);
 
     this.currentMonthIncome = this.currentMonthTransactions.pipe(
       map(this.filterMode('income')),

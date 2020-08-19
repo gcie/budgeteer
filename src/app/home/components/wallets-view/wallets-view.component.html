@@ -9,30 +9,32 @@
 
   <mat-card *ngFor="let wallet of (api.wallets | async)">
     <mat-card-content fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" style="padding-left: 8px">
+      <mat-icon svgIcon="home" *ngIf="wallet.id === (api.mainWallet | async).id"></mat-icon>
       <h2 class="mat-title no-margin">{{ wallet.name }}</h2>
       <div fxFlex></div>
       <button mat-icon-button [matMenuTriggerFor]="walletMenu">
         <mat-icon svgIcon="dots-vertical"></mat-icon>
       </button>
+
+      <mat-menu #walletMenu="matMenu">
+        <button mat-menu-item [disabled]="wallet.id === (api.mainWallet | async).id" (click)="setMain(wallet.id)">
+          <mat-icon svgIcon="home-plus"></mat-icon>
+          <span>Ustaw jako główny</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon svgIcon="pencil"></mat-icon>
+          <span>Zmień nazwę</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon svgIcon="delete"></mat-icon>
+          <span>Usuń</span>
+        </button>
+      </mat-menu>
     </mat-card-content>
   </mat-card>
 
 </div>
 
-<mat-menu #walletMenu="matMenu">
-  <!-- <button mat-menu-item>
-    <mat-icon svgIcon="wallet"></mat-icon>
-    <span>Ustaw jako główny</span>
-  </button> -->
-  <button mat-menu-item>
-    <mat-icon svgIcon="pencil"></mat-icon>
-    <span>Zmień nazwę</span>
-  </button>
-  <button mat-menu-item>
-    <mat-icon svgIcon="delete"></mat-icon>
-    <span>Usuń</span>
-  </button>
-</mat-menu>
 
 <button mat-fab color="accent" class="br-fab">
   <mat-icon svgIcon="wallet-plus"></mat-icon>

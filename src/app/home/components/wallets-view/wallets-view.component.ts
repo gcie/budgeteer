@@ -8,4 +8,8 @@ import { ApiService } from 'src/app/core/services/api.service';
 })
 export class WalletsViewComponent {
   constructor(public api: ApiService) {}
+
+  setMain(walletId: string) {
+    this.api.updateUserData({ mainWallet: walletId });
+  }
 }
