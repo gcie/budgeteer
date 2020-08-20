@@ -33,7 +33,7 @@
     <button mat-icon-button (click)="openMenu()">
       <mat-icon svgIcon="menu"></mat-icon>
     </button>
-    {{ (api.mainWallet | async)?.name }}
+    {{ (api.mainWallet | async)?.metadata.name }}
   </mat-toolbar>
 </ion-header>
 

@@ -1,0 +1,11 @@
+<div mat-dialog-content>
+  <p>Wprowadź nazwę nowego portfela:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="walletName">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="cancel()">Anuluj</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="walletName" cdkFocusInitial
+    [disabled]="walletName.length === 0">Zatwierdź</button>
+</div>

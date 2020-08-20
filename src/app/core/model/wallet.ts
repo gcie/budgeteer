@@ -1,8 +1,12 @@
 import { Transaction } from './transaction';
 
-export class Wallet {
-  id: string; // wallet id
+export class WalletMetadata {
+  id: string;
   name: string;
-  members: { [id: string]: 'owner' | 'member' }[];
+}
+
+export class Wallet {
+  metadata: WalletMetadata;
+  members: { [id: string]: 'owner' | 'member' };
   transactions: Transaction[];
 }

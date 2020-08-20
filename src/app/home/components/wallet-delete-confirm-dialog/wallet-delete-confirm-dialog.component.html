@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Potwierdź</h1>
+<div mat-dialog-content>
+  <p>Czyna pewno chcesz usunąć portfel <b>{{ wallet.name }}</b>? Wszystkie zapisane transakcje zostaną usunięte. Jeśli
+    tak, to wpisz poniżej nazwę portfela:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="confirmName">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="cancel()">Anuluj</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true"
+    [disabled]="wallet.name !== confirmName">Zatwierdź</button>
+</div>

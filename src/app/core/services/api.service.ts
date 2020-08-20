@@ -4,20 +4,21 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ProfileData } from '../model/profile-data';
 import { Transaction } from '../model/transaction';
-import { Wallet } from '../model/wallet';
+import { Wallet, WalletMetadata } from '../model/wallet';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
   private profileDbRef: database.Reference;
-  private walletsDbRef: database.Reference;
+  private userWalletsDbRef: database.Reference;
   private mainWalletDbRef: database.Reference;
+  private walletsDbRef: database.Reference[];
 
   private mainWalletId: string;
 
   profile: BehaviorSubject<ProfileData> = new BehaviorSubject(null);
-  wallets: BehaviorSubject<Wallet[]> = new BehaviorSubject(null);
+  wallets: BehaviorSubject<WalletMetadata>[] = [];
   mainWallet: BehaviorSubject<Wallet> = new BehaviorSubject(null);
   mainTransactions: Observable<Transaction[]> = new BehaviorSubject(null);
 
@@ -26,6 +27,35 @@ export class ApiService {
     this.walletsInit();
     this.mainWalletInit();
     this.mainTransactions = this.mainWallet.pipe(map((wallet) => wallet?.transactions));
+  }
+
+  newWallet(walletName: string) {
+    const dbRef = database().ref(`wallets`);
+    const newKey = dbRef.push().key;
+
+    const wallet = new Wallet();
+    wallet.members = {};
+    wallet.members[auth().currentUser.uid] = 'owner';
+    wallet.metadata = { id: newKey, name: walletName };
+    wallet.transactions = [];
+
+    // create new wallet
+    dbRef.child(newKey).set(wallet);
+
+    // add wallet to user data
+    this.updateUserData({ wallets: [...this.profile.value.wallets, newKey] });
+  }
+
+  updateWalletMetadata(wallet: WalletMetadata) {
+    database().ref(`wallets/${wallet.id}/metadata`).update(wallet);
+  }
+
+  deleteWallet(walletId: string) {
+    // remove wallet from database
+    database().ref(`wallets/${walletId}`).remove();
+
+    // remove wallet from user data
+    this.updateUserData({ wallets: this.profile.value.wallets.filter((id) => id !== walletId) });
   }
 
   updateUserData(userData: Partial<ProfileData>) {
@@ -52,7 +82,7 @@ export class ApiService {
     });
   }
 
-  updateTransaction(walletId: string, newTransaction: Transaction) {
+  updateTransaction(walletId: string, newTransaction: Partial<Transaction>) {
     const update = newTransaction as any;
     update.date = newTransaction.date.toJSON();
     database().ref(`wallets/${walletId}/transactions/${newTransaction.id}`).update(update);
@@ -82,11 +112,24 @@ export class ApiService {
   }
 
   private walletsInit() {
-    this.walletsDbRef = database().ref(`users/${auth().currentUser.uid}/wallets`);
-    this.walletsDbRef.on('value', (walletsIds) => {
-      Promise.all((walletsIds.val() || []).map((walletId) => database().ref(`wallets/${walletId}`).once('value'))).then((wallets) => {
-        // tslint:disable-next-line: no-string-literal
-        this.wallets.next(wallets.map((i) => i['val']()));
+    this.userWalletsDbRef = database().ref(`users/${auth().currentUser.uid}/wallets`);
+    this.userWalletsDbRef.on('value', (walletsIds) => {
+      console.log('[userWalletsDbRef] new value');
+
+      // turn off active connections, if such exist
+      this.walletsDbRef?.forEach((dbRef) => dbRef.off());
+      // create new connections to wallets' metadata property
+      this.walletsDbRef = (walletsIds.val() || []).map((walletId) =>
+        database().ref(`wallets/${walletId}/metadata`)
+      ) as database.Reference[];
+
+      this.wallets = this.walletsDbRef.map((dbRef) => {
+        const subject = new BehaviorSubject(null);
+
+        dbRef.on('value', (data) => {
+          subject.next(data.val());
+        });
+        return subject;
       });
     });
   }

@@ -1,11 +1,4 @@
 <div class="home-content-wrapper">
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="4px">
-    <!-- <mat-select [ngModel]="activeWallet">
-      <mat-option class="qwerty" *ngFor="let wallet of (api.wallets | async)" [value]="wallet.id">
-        {{ wallet.name }}
-      </mat-option>
-    </mat-select> -->
-  </div>
 
   <div *ngIf="(api.mainTransactions | async)?.length === 0" class="gray" style="width: 100%; height: 100%"
     fxLayout="column" fxLayoutAlign="center center">

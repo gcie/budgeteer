@@ -1,31 +1,31 @@
-<div *ngIf="(api.wallets | async)?.length === 0" class="gray home-content-wrapper" fxLayout="column"
-  fxLayoutAlign="center center">
+<div *ngIf="api.wallets.length === 0" class="gray home-content-wrapper" fxLayout="column" fxLayoutAlign="center center">
   <mat-icon svgIcon="wallet-outline"></mat-icon>
   Brak portfeli
 </div>
 
-<div *ngIf="(api.wallets | async)?.length > 0" class="home-content-wrapper" fxLayout="column"
-  fxLayoutAlign="start stretch" fxLayoutGap="8px">
+<div *ngIf="api.wallets.length > 0" class="home-content-wrapper" fxLayout="column" fxLayoutAlign="start stretch"
+  fxLayoutGap="8px">
 
-  <mat-card *ngFor="let wallet of (api.wallets | async)">
+  <mat-card *ngFor="let wallet of api.wallets">
     <mat-card-content fxLayout="row" fxLayoutGap="8px" fxLayoutAlign="start center" style="padding-left: 8px">
-      <mat-icon svgIcon="home" *ngIf="wallet.id === (api.mainWallet | async).id"></mat-icon>
-      <h2 class="mat-title no-margin">{{ wallet.name }}</h2>
+      <mat-icon svgIcon="home" *ngIf="wallet.value?.id === (api.mainWallet | async).metadata.id"></mat-icon>
+      <h2 class="mat-title no-margin">{{ (wallet | async)?.name }}</h2>
       <div fxFlex></div>
       <button mat-icon-button [matMenuTriggerFor]="walletMenu">
         <mat-icon svgIcon="dots-vertical"></mat-icon>
       </button>
 
       <mat-menu #walletMenu="matMenu">
-        <button mat-menu-item [disabled]="wallet.id === (api.mainWallet | async).id" (click)="setMain(wallet.id)">
+        <button mat-menu-item [disabled]="wallet.value?.id === (api.mainWallet | async).metadata.id"
+          (click)="setMain(wallet.value?.id)">
           <mat-icon svgIcon="home-plus"></mat-icon>
           <span>Ustaw jako główny</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="changeName(wallet.value)">
           <mat-icon svgIcon="pencil"></mat-icon>
           <span>Zmień nazwę</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="delete(wallet.value)">
           <mat-icon svgIcon="delete"></mat-icon>
           <span>Usuń</span>
         </button>
@@ -36,6 +36,6 @@
 </div>
 
 
-<button mat-fab color="accent" class="br-fab">
+<button mat-fab color="accent" class="br-fab" (click)="newWallet()">
   <mat-icon svgIcon="wallet-plus"></mat-icon>
 </button>

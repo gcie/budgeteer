@@ -68,9 +68,9 @@
 
     <mat-selection-list #selectedWallets>
       <h3 matSubheader>Portfele</h3>
-      <mat-list-option *ngFor="let wallet of (api.wallets | async)" [value]="wallet.id"
-        [selected]="(api.profile | async).activeWallets?.includes(wallet.id)">
-        {{ wallet.name }}
+      <mat-list-option *ngFor="let wallet of api.wallets" [value]="(wallet | async).id"
+        [selected]="(api.profile | async).activeWallets?.includes(wallet.value.id)">
+        {{ (wallet | async).name }}
       </mat-list-option>
     </mat-selection-list>
 

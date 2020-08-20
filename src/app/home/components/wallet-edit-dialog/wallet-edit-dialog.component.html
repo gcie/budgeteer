@@ -1,0 +1,11 @@
+<!-- <h1 mat-dialog-title>Hi {{data.name}}</h1> -->
+<div mat-dialog-content>
+  <p>Wprowadź nową nazwę portfela:</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="wallet.name">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="cancel()">Anuluj</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="wallet" cdkFocusInitial>Zatwierdź</button>
+</div>
