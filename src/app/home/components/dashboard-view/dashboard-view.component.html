@@ -1,7 +1,10 @@
 <div class="home-content-wrapper">
+  <div *ngIf="!(api.mainTransactions | async)" fxLayout="column" fxLayoutAlign="center center" class="wh-100">
+    <mat-spinner color="accent"></mat-spinner>
+  </div>
 
-  <div *ngIf="(api.mainTransactions | async)?.length === 0" class="gray" style="width: 100%; height: 100%"
-    fxLayout="column" fxLayoutAlign="center center">
+  <div *ngIf="(api.mainTransactions | async)?.length === 0" class="gray wh-100" fxLayout="column"
+    fxLayoutAlign="center center">
     <mat-icon svgIcon="wallet-outline"></mat-icon>
     Brak transakcji
   </div>
