@@ -5,4 +5,5 @@ export class Transaction {
   mode: 'expense' | 'income';
   category: string;
   description: string;
+  addedBy?: string;
 }

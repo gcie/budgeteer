@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { ProfileData } from '../model/profile-data';
 import { Transaction } from '../model/transaction';
 import { Wallet, WalletMetadata } from '../model/wallet';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class ApiService {
   mainWallet: BehaviorSubject<Wallet> = new BehaviorSubject(null);
   mainTransactions: Observable<Transaction[]> = new BehaviorSubject(null);
 
-  constructor() {
+  constructor(private authService: AuthService) {
     this.profileInit();
     this.walletsInit();
     this.mainWalletInit();
@@ -78,6 +79,7 @@ export class ApiService {
         category: transaction.category,
         mode: transaction.mode,
         description: transaction.description || '',
+        addedBy: this.authService.currentUser.displayName,
       });
     });
   }
@@ -114,8 +116,6 @@ export class ApiService {
   private walletsInit() {
     this.userWalletsDbRef = database().ref(`users/${auth().currentUser.uid}/wallets`);
     this.userWalletsDbRef.on('value', (walletsIds) => {
-      console.log('[userWalletsDbRef] new value');
-
       // turn off active connections, if such exist
       this.walletsDbRef?.forEach((dbRef) => dbRef.off());
       // create new connections to wallets' metadata property

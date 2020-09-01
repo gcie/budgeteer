@@ -12,15 +12,17 @@ mat-card {
   padding: 4px 8px;
 }
 
-.tr-category {
+.tr-top {
   line-height: 16px;
 }
 
-.tr-amount {
+.tr-bar {
+  height: 32px;
+  width: 3px;
   &-income {
-    color: $success;
+    background-color: $success;
   }
   &-expense {
-    color: $warn;
+    background-color: $warn;
   }
 }

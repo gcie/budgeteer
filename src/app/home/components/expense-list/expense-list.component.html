@@ -9,13 +9,19 @@
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" (click)="editTransaction(transaction)">
         <mat-icon [svgIcon]="transaction.category | category:'icon'"></mat-icon>
         <div>
-          <h3 class="mat-subheading-2 no-margin tr-category">{{ transaction.category  | category }}</h3>
+          <h3 class="mat-subheading-2 no-margin tr-top">{{ transaction.category  | category }}</h3>
           <p class="mat-small no-margin">{{ transaction.date | date }}</p>
         </div>
         <div fxFlex></div>
-        <h2 class="mat-h2 no-margin"
-          [ngClass]="{'tr-amount-income': transaction.mode === 'income', 'tr-amount-expense': transaction.mode === 'expense' }">
-          {{ (transaction.mode === 'income' ? '+' : '-') + (transaction.amount | amount) }}</h2>
+
+        <div style="text-align: end;">
+          <h3 class="mat-subheading-2 no-margin tr-top">
+            {{ (transaction.mode === 'income' ? '+' : '-') + (transaction.amount | amount) }}</h3>
+          <p class="mat-small no-margin">{{ transaction.addedBy }}</p>
+        </div>
+        <div class="no-margin tr-bar"
+          [ngClass]="{'tr-bar-income': transaction.mode === 'income', 'tr-bar-expense': transaction.mode === 'expense' }">
+        </div>
       </div>
     </div>
   </mat-card-content>
