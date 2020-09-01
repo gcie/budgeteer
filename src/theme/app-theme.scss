@@ -16,9 +16,9 @@ $theme-secondary: (
   lighter: $secondary-light,
   darker: $secondary-dark,
   text: $secondary,
-  default-contrast: $light-primary-text,
+  default-contrast: $dark-primary-text,
   lighter-contrast: $dark-primary-text,
-  darker-contrast: $light-primary-text,
+  darker-contrast: $dark-primary-text,
 );
 
 $app-theme: mat-light-theme($theme-primary, $theme-secondary, mat-palette($mat-red));
