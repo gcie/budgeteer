@@ -12,9 +12,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 export class DashboardViewComponent implements OnInit {
   activeWallet: string;
 
-  constructor(public api: ApiService, public router: Router) {
-    api.mainTransactions.subscribe(console.warn);
-  }
+  constructor(public api: ApiService, public router: Router) {}
 
   ngOnInit() {
     this.api.profile

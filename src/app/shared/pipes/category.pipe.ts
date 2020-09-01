@@ -10,7 +10,7 @@ export class CategoryPipe implements PipeTransform {
     equipment: 'Sprzęty',
     entertainment: 'Rozrywka',
     bills: 'Rachunki',
-    transport: ' Transport',
+    transport: 'Transport',
     gifts: 'Prezenty',
     travel: 'Podróże',
     other: 'Inne',
@@ -18,9 +18,32 @@ export class CategoryPipe implements PipeTransform {
     donation: 'Darowizna',
   };
 
-  transform(value?: string): string {
-    if (Object.keys(this.categoryToWord).includes(value)) {
-      return this.categoryToWord[value];
+  categoryToIcon = {
+    food: 'food-apple-outline',
+    clothes: 'tshirt-crew-outline',
+    equipment: 'desk-lamp',
+    entertainment: 'drama-masks',
+    bills: 'receipt',
+    transport: 'train-car',
+    gifts: 'gift-outline',
+    travel: 'airplane',
+    other: 'dots-horizontal',
+    salary: 'cash-usd-outline',
+    donation: 'wallet-giftcard',
+  };
+
+  transform(value?: string, mode?: string): string {
+    let map;
+    switch (mode) {
+      case 'icon':
+        map = this.categoryToIcon;
+        break;
+      case 'translate':
+      default:
+        map = this.categoryToWord;
+    }
+    if (Object.keys(map).includes(value)) {
+      return map[value];
     }
     return '';
   }

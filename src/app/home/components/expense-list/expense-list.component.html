@@ -6,11 +6,13 @@
     <div *ngFor="let transaction of (transactions | async)" class="tr-item">
       <mat-divider style="transform: translate(0px, -6px);"></mat-divider>
 
-      <div fxLayout="row" fxLayoutAlign="space-between center" (click)="editTransaction(transaction)">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" (click)="editTransaction(transaction)">
+        <mat-icon [svgIcon]="transaction.category | category:'icon'"></mat-icon>
         <div>
           <h3 class="mat-subheading-2 no-margin tr-category">{{ transaction.category  | category }}</h3>
           <p class="mat-small no-margin">{{ transaction.date | date }}</p>
         </div>
+        <div fxFlex></div>
         <h2 class="mat-h2 no-margin"
           [ngClass]="{'tr-amount-income': transaction.mode === 'income', 'tr-amount-expense': transaction.mode === 'expense' }">
           {{ (transaction.mode === 'income' ? '+' : '-') + (transaction.amount | amount) }}</h2>
