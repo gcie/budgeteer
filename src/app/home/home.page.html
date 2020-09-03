@@ -33,7 +33,12 @@
     <button mat-icon-button (click)="openMenu()">
       <mat-icon svgIcon="menu"></mat-icon>
     </button>
-    {{ (api.mainWallet | async)?.metadata.name }}
+    <span [matMenuTriggerFor]="walletMenu">
+      {{ (api.mainWallet | async)?.metadata.name }}
+    </span>
+    <button mat-icon-button [matMenuTriggerFor]="walletMenu">
+      <mat-icon svgIcon="chevron-down"></mat-icon>
+    </button>
   </mat-toolbar>
 </ion-header>
 
@@ -43,3 +48,9 @@
     <router-outlet #outlet="outlet"></router-outlet>
   </div>
 </ion-content>
+
+<mat-menu #walletMenu xPosition="before">
+  <button mat-menu-item *ngFor="let wallet of api.wallets"
+    [disabled]="(wallet | async)?.id  === (api.mainWallet | async)?.metadata.id "
+    (click)="changeWallet(wallet.value.id)">{{ (wallet | async)?.name }}</button>
+</mat-menu>

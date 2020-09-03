@@ -76,4 +76,8 @@ export class HomePage implements OnInit {
   logout() {
     this.authService.signOut();
   }
+
+  changeWallet(walletId: string) {
+    this.api.updateUserData({ mainWallet: walletId });
+  }
 }
