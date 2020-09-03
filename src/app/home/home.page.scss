@@ -1,7 +1,5 @@
-@import '../../theme/variables.scss';
+@import '../../theme/app-theme.scss';
 
 .sidenav-header {
-  // width: 100%;
-  // height: auto;
-  background-color: $primary-light;
+  background-color: map-get($theme, primary-light);
 }

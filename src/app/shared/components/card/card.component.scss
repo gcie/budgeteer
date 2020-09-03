@@ -1,0 +1,13 @@
+@import '../../../../theme/app-theme.scss';
+
+@each $prefix in (primary, secondary, tertiary) {
+  @each $name in (#{$prefix}-dark, #{$prefix}-medium-dark, #{$prefix}, #{$prefix}-medium-light, #{$prefix}-light, #{$prefix}-very-light) {
+    .#{$name} {
+      background-color: map-get($theme, #{$name});
+    }
+  }
+}
+
+.mat-card {
+  padding: 8px;
+}

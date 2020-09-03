@@ -1,24 +1,52 @@
 @import '~@angular/material/theming';
 @import './variables.scss';
 
+@function app-theme($primary-color, $secondary-color, $tertiary-color) {
+  @return (
+    primary-dark: map-get($primary-color, dark),
+    primary-medium-dark: map-get($primary-color, medium-dark),
+    primary: map-get($primary-color, default),
+    primary-medium-light: map-get($primary-color, medium-light),
+    primary-light: map-get($primary-color, light),
+    primary-very-light: map-get($primary-color, very-light),
+    primary-contrast: map-get($primary-color, contrast),
+    secondary-dark: map-get($secondary-color, dark),
+    secondary-medium-dark: map-get($secondary-color, medium-dark),
+    secondary: map-get($secondary-color, default),
+    secondary-medium-light: map-get($secondary-color, medium-light),
+    secondary-light: map-get($secondary-color, light),
+    primsecondaryary-very-light: map-get($secondary-color, very-light),
+    secondary-contrast: map-get($secondary-color, contrast),
+    tertiary-dark: map-get($tertiary-color, dark),
+    tertiary-medium-dark: map-get($tertiary-color, medium-dark),
+    tertiary: map-get($tertiary-color, default),
+    tertiary-medium-light: map-get($tertiary-color, medium-light),
+    tertiary-light: map-get($tertiary-color, light),
+    tertiary-very-light: map-get($tertiary-color, very-light),
+    tertiary-contrast: map-get($tertiary-color, contrast)
+  );
+}
+
+$theme: app-theme($brown-600, $green-600, $amber-600);
+
 $theme-primary: (
-  default: $primary,
-  lighter: $primary-light,
-  darker: $primary-dark,
-  text: $primary,
-  default-contrast: $light-primary-text,
-  lighter-contrast: $dark-primary-text,
-  darker-contrast: $light-primary-text,
+  default: map-get($theme, primary),
+  lighter: map-get($theme, primary-light),
+  darker: map-get($theme, primary-dark),
+  text: map-get($theme, primary),
+  darker-contrast: map-get(map-get($theme, primary-contrast), dark),
+  default-contrast: map-get(map-get($theme, primary-contrast), default),
+  lighter-contrast: map-get(map-get($theme, primary-contrast), light),
 );
 
 $theme-secondary: (
-  default: $secondary,
-  lighter: $secondary-light,
-  darker: $secondary-dark,
-  text: $secondary,
-  default-contrast: $dark-primary-text,
-  lighter-contrast: $dark-primary-text,
-  darker-contrast: $dark-primary-text,
+  default: map-get($theme, secondary),
+  lighter: map-get($theme, secondary-light),
+  darker: map-get($theme, secondary-dark),
+  text: map-get($theme, secondary),
+  darker-contrast: map-get(map-get($theme, secondary-contrast), dark),
+  default-contrast: map-get(map-get($theme, secondary-contrast), default),
+  lighter-contrast: map-get(map-get($theme, secondary-contrast), light),
 );
 
-$app-theme: mat-light-theme($theme-primary, $theme-secondary, mat-palette($mat-red));
+$mat-app-theme: mat-light-theme($theme-primary, $theme-secondary, mat-palette($mat-red));

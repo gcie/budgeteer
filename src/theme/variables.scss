@@ -1,22 +1,57 @@
-// $primary: #3f51b5;
-// $primary-dark: #002984;
-// $primary-light: #757de8;
+@import '~@angular/material/theming';
 
-// $secondary: #e91e63;
-// $secondary-dark: #b0003a;
-// $secondary-light: #ff6090;
+$green-600: (
+  dark: #00701a,
+  medium-dark: #278831,
+  default: #43a047,
+  medium-light: #5db95e,
+  light: #76d275,
+  contrast: (
+    dark: $light-primary-text,
+    default: $dark-primary-text,
+    light: $dark-primary-text,
+  ),
+);
 
-// $success: #4caf50;
-// $success-dark: #087f23;
-// $success-light: #80e27e;
+$green-700: (
+  dark: #00600f,
+  medium-dark: #1b7626,
+  default: #388e3c,
+  medium-light: #51a652,
+  light: #6abf69,
+  contrast: (
+    dark: $light-primary-text,
+    default: $dark-primary-text,
+    light: $dark-primary-text,
+  ),
+);
 
-$primary: #6d4c41;
-$primary-dark: #40241a;
-$primary-light: #9c786c;
+$brown-600: (
+  dark: #40241a,
+  medium-dark: #56372d,
+  default: #6d4c41,
+  medium-light: #846256,
+  light: #9c786c,
+  very-light: #b58f83,
+  contrast: (
+    dark: $light-primary-text,
+    default: $light-primary-text,
+    light: $dark-primary-text,
+  ),
+);
 
-$secondary: #00c853;
-$secondary-dark: #009624;
-$secondary-light: #5efc82;
+$amber-600: (
+  dark: #c68400,
+  medium-dark: #e19c27,
+  default: #ffb300,
+  medium-light: #e4cc30,
+  light: #ffe54c,
+  contrast: (
+    dark: $dark-primary-text,
+    default: $dark-primary-text,
+    light: $dark-primary-text,
+  ),
+);
 
 $success: #4caf50;
 $success-dark: #087f23;
