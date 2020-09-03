@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, zip } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Transaction } from '../model/transaction';
 import { Wallet } from '../model/wallet';
@@ -33,7 +33,9 @@ export class MainWalletService {
       map((trs) => trs?.reduce((total, tr) => total + tr.amount, 0))
     );
 
-    this.currentMonthDiff = zip(this.currentMonthIncome, this.currentMonthExpenses).pipe(map(([income, expenses]) => income - expenses));
+    this.currentMonthDiff = combineLatest([this.currentMonthIncome, this.currentMonthExpenses]).pipe(
+      map(([income, expenses]) => income - expenses)
+    );
   }
 
   private filterCurrentMonth(trs: Transaction[]): Transaction[] {

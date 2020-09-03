@@ -3,21 +3,30 @@
     <h2 class="mat-h2">Podsumowanie miesiąca</h2>
   </mat-card-title>
   <mat-card-content>
-    <div fxLayout="row" fxLayoutGap="4px">
-      <p class="mat-body no-margin">Wydatki:&nbsp;</p>
-      <p class="mat-body no-margin warn">{{ wallet.currentMonthExpenses | async | amount }}</p>
+    <div fxLayout="row" fxLayoutGap="16px">
+      <div fxFlex="50" fxLayout="column" fxLayoutGap="4px" fxLayoutAlign="start stretch">
+        <div fxLayout="row">
+          <p class="mat-body no-margin">Wydatki:&nbsp;</p>
+          <p class="mat-body no-margin warn">{{ wallet.currentMonthExpenses | async | amount }}</p>
+        </div>
+        <div fxFlex></div>
+        <div fxLayout="row">
+          <p class="mat-body no-margin">Dochody:&nbsp;</p>
+          <p class="mat-body no-margin success">{{ wallet.currentMonthIncome | async | amount }}</p>
+        </div>
+        <div fxFlex></div>
+        <div fxLayout="row">
+          <p class="mat-body no-margin">Różnica:&nbsp;</p>
+          <p class="mat-body no-margin"
+            [ngClass]="{success: (wallet.currentMonthDiff | async) > 0, warn: (wallet.currentMonthDiff | async) < 0}">
+            {{ wallet.currentMonthDiff | async | amount }}</p>
+        </div>
+      </div>
 
-      <div fxFlex></div>
-
-      <p class="mat-body no-margin">Dochody:&nbsp;</p>
-      <p class="mat-body no-margin success">{{ wallet.currentMonthIncome | async | amount }}</p>
-
-      <div fxFlex></div>
-
-      <p class="mat-body no-margin">Różnica:&nbsp;</p>
-      <p class="mat-body no-margin"
-        [ngClass]="{success: (wallet.currentMonthDiff | async) > 0, warn: (wallet.currentMonthDiff | async) < 0}">
-        {{ wallet.currentMonthDiff | async | amount }}</p>
+      <div fxFlex="50">
+        <canvas baseChart [data]="chartData" [labels]="chartLabels" [options]="chartOptions" [colors]="chartColors"
+          legend="false" chartType="pie"> </canvas>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>
