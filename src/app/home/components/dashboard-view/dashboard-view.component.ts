@@ -28,7 +28,6 @@ export class DashboardViewComponent implements OnInit {
 
   test() {
     const newKey = database().ref('wallets').push().key;
-    console.log(newKey);
   }
 
   newTransaction() {

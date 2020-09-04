@@ -3,7 +3,7 @@
 
     <mat-toolbar color="primary">
       <img src="/assets/img/wallet.svg" style="width: 48px; height: 48px; margin-right: 8px">
-      <h2 class="mat-h2">{{ authService.currentUser.displayName }}</h2>
+      <h2 class="mat-h2">{{ authService.user.displayName }}</h2>
     </mat-toolbar>
     <mat-nav-list>
       <a mat-list-item (click)="redirect('/')">

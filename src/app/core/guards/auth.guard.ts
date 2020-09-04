@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -10,12 +11,15 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authService.currentUser != null) {
-      return true;
-    } else {
-      // Navigate to the login page
-      this.router.navigate(['sign-in']);
-      return false;
-    }
+    return this.authService.authState$.pipe(
+      filter((state) => state?.resolved),
+      map((state) => {
+        if (state.user != null) {
+          return true;
+        }
+        this.router.navigate(['sign-in']);
+        return false;
+      })
+    );
   }
 }

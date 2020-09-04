@@ -7,7 +7,7 @@
 <ion-content [fullscreen]="true">
   <div style="width: 100%; height: 100%" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="16px">
 
-    <button mat-raised-button color="warn" (click)="googleSignIn()">
+    <button mat-raised-button color="warn" (click)="authService.googleSignIn()">
       Zaloguj przez Google
       <mat-icon svgIcon="google"></mat-icon>
     </button>

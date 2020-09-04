@@ -30,7 +30,6 @@ export class WalletsViewComponent {
   }
 
   delete(wallet: WalletMetadata) {
-    console.log(wallet);
     this.dialog
       .open(WalletDeleteConfirmDialogComponent, { data: { ...wallet } })
       .afterClosed()

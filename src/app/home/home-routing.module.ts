@@ -15,6 +15,7 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
+    // resolve: { data: UserResolver },
     canActivate: [AuthGuard],
     children: [
       { path: 'wallets', component: WalletsViewComponent },

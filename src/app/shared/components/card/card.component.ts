@@ -10,7 +10,6 @@ export class CardComponent implements OnInit {
   colorClass;
 
   ngOnInit() {
-    console.log(this.color);
     this.colorClass = {
       'primary-dark': this.color === 'primary-dark' || this.color === 'dark',
       'primary-medium-dark': this.color === 'primary-medium-dark' || this.color === 'medium-dark',

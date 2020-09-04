@@ -69,7 +69,6 @@ export class ApiService {
 
     // add transaction to each wallet
     walletIds.forEach((walletId) => {
-      console.log(transaction.date.toJSON());
       const dbRef = database().ref(`wallets/${walletId}/transactions`);
       const newKey = dbRef.push().key;
       dbRef.child(newKey).set({
@@ -79,7 +78,7 @@ export class ApiService {
         category: transaction.category,
         mode: transaction.mode,
         description: transaction.description || '',
-        addedBy: this.authService.currentUser.displayName,
+        addedBy: this.authService.user.displayName,
       });
     });
   }

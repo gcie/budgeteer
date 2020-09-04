@@ -29,7 +29,6 @@ export class EditTransactionDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.location.getState());
     this.transaction = (this.location.getState() as any).transaction;
     this.walletId = (this.location.getState() as any).walletId;
 
