@@ -14,6 +14,8 @@ export class MainWalletService {
   allTransactions: Observable<Transaction[]>;
   currentMonthTransactions: Observable<Transaction[]>;
 
+  monthList: Observable<{ year: number; month: number }[]>;
+
   currentMonthIncome: Observable<number>;
   currentMonthExpenses: Observable<number>;
   currentMonthDiff: Observable<number>;
@@ -36,6 +38,20 @@ export class MainWalletService {
     this.currentMonthDiff = combineLatest([this.currentMonthIncome, this.currentMonthExpenses]).pipe(
       map(([income, expenses]) => income - expenses)
     );
+
+    this.monthList = this.api.mainTransactions.pipe(
+      map((transactions) =>
+        transactions.reduce((months: { year: number; month: number }[], tr) => {
+          if (!months.find(({ year, month }) => year === tr.date.getFullYear() && month === tr.date.getMonth())) {
+            months.push({ year: tr.date.getFullYear(), month: tr.date.getMonth() });
+          }
+          return months;
+        }, [])
+      ),
+      map((months) => months.sort((m1, m2) => (m1.year === m2.year ? m2.month - m1.month : m2.year - m1.year)))
+    );
+
+    this.monthList.subscribe(console.log.bind(this, '[monthList]'));
   }
 
   private filterCurrentMonth(trs: Transaction[]): Transaction[] {

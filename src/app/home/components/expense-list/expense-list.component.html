@@ -1,8 +1,54 @@
 <app-card class="tr-list-wrapper" fxLayout="column">
-  <mat-card-title>
+  <mat-card-title fxLayout="row" fxLayoutAlign="start center">
     <h2 class="mat-h2">Ostatnie transakcje</h2>
+    <div fxFlex></div>
   </mat-card-title>
   <mat-card-content class="tr-list-wrapper">
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" style="width: 100%">
+
+      <!-- Icon Column -->
+      <ng-container matColumnDef="icon">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let transaction">
+          <mat-icon [svgIcon]="transaction.category | category:'icon'"></mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Category & Date Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let transaction">
+          <h3 class="mat-subheading-2 no-margin tr-top">{{ transaction.category  | category }}</h3>
+          <p class="mat-small no-margin tr-bottom">{{ transaction.date | date }}</p>
+        </td>
+      </ng-container>
+
+      <!-- Price & Added by Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let transaction" style="text-align: end; padding-right: 4px;">
+          <h3 class="mat-subheading-2 no-margin tr-top">
+            {{ (transaction.mode === 'income' ? '+' : '-') + (transaction.amount | amount) }}</h3>
+          <p class="mat-small no-margin tr-bottom">{{ transaction.addedBy }}</p>
+      </ng-container>
+
+      <!-- Color Bar Column -->
+      <ng-container matColumnDef="bar">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let transaction" class="no-margin tr-bar"
+          [ngClass]="{'tr-bar-income': transaction.mode === 'income', 'tr-bar-expense': transaction.mode === 'expense' }">
+        </td>
+      </ng-container>
+
+      <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr> -->
+      <tr mat-row *matRowDef="let transaction; columns: ['icon', 'category', 'price', 'bar'];" style="height: 40px"
+        (click)="editTransaction(transaction)"></tr>
+    </table>
+
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator> -->
+
+    <!-- 
     <div *ngFor="let transaction of (transactions | async)" class="tr-item">
       <mat-divider style="transform: translate(0px, -6px);"></mat-divider>
 
@@ -23,6 +69,6 @@
           [ngClass]="{'tr-bar-income': transaction.mode === 'income', 'tr-bar-expense': transaction.mode === 'expense' }">
         </div>
       </div>
-    </div>
+    </div> -->
   </mat-card-content>
 </app-card>

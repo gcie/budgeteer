@@ -16,13 +16,22 @@ mat-card {
   line-height: 16px;
 }
 
+.tr-bottom {
+  line-height: 12px;
+}
+
 .tr-bar {
   height: 32px;
   width: 3px;
+  padding-right: 0 !important;
   &-income {
     background-color: $success;
   }
   &-expense {
     background-color: $warn;
   }
+}
+
+.mat-select {
+  width: unset !important;
 }

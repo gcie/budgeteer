@@ -36,7 +36,7 @@ export class ApiService {
 
     const wallet = new Wallet();
     wallet.members = {};
-    wallet.members[auth().currentUser.uid] = 'owner';
+    wallet.members[this.authService.user.uid] = 'owner';
     wallet.metadata = { id: newKey, name: walletName };
     wallet.transactions = [];
 
@@ -106,29 +106,33 @@ export class ApiService {
   }
 
   private profileInit() {
-    this.profileDbRef = database().ref(`users/${auth().currentUser.uid}`);
-    this.profileDbRef.on('value', (profile) => {
-      this.profile.next(profile.val());
+    this.authService.authState$.subscribe((authState) => {
+      this.profileDbRef?.off();
+      (this.profileDbRef = database().ref(`users/${authState.user.uid}`)).on('value', (profile) => {
+        this.profile.next(profile.val());
+      });
     });
   }
 
   private walletsInit() {
-    this.userWalletsDbRef = database().ref(`users/${auth().currentUser.uid}/wallets`);
-    this.userWalletsDbRef.on('value', (walletsIds) => {
-      // turn off active connections, if such exist
-      this.walletsDbRef?.forEach((dbRef) => dbRef.off());
-      // create new connections to wallets' metadata property
-      this.walletsDbRef = (walletsIds.val() || []).map((walletId) =>
-        database().ref(`wallets/${walletId}/metadata`)
-      ) as database.Reference[];
+    this.authService.authState$.subscribe((authState) => {
+      this.userWalletsDbRef?.off();
+      (this.userWalletsDbRef = database().ref(`users/${authState.user.uid}/wallets`)).on('value', (walletsIds) => {
+        // turn off active connections, if such exist
+        this.walletsDbRef?.forEach((dbRef) => dbRef.off());
+        // create new connections to wallets' metadata property
+        this.walletsDbRef = (walletsIds.val() || []).map((walletId) =>
+          database().ref(`wallets/${walletId}/metadata`)
+        ) as database.Reference[];
 
-      this.wallets = this.walletsDbRef.map((dbRef) => {
-        const subject = new BehaviorSubject(null);
+        this.wallets = this.walletsDbRef.map((dbRef) => {
+          const subject = new BehaviorSubject(null);
 
-        dbRef.on('value', (data) => {
-          subject.next(data.val());
+          dbRef.on('value', (data) => {
+            subject.next(data.val());
+          });
+          return subject;
         });
-        return subject;
       });
     });
   }
@@ -140,8 +144,7 @@ export class ApiService {
       } else if (profile.mainWallet !== this.mainWalletId) {
         this.mainWalletId = profile.mainWallet;
         this.mainWalletDbRef?.off();
-        this.mainWalletDbRef = database().ref(`wallets/${profile.mainWallet}`);
-        this.mainWalletDbRef.on('value', (data) => {
+        (this.mainWalletDbRef = database().ref(`wallets/${profile.mainWallet}`)).on('value', (data) => {
           const wallet = data.val();
           wallet.transactions = wallet.transactions ? Object.values(wallet.transactions) : [];
           wallet.transactions.forEach((tr) => {

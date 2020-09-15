@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { cfaSignIn, cfaSignOut, mapUserToUserInfo } from 'capacitor-firebase-auth';
 import { auth, UserInfo } from 'firebase';
 import { BehaviorSubject, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, first, tap } from 'rxjs/operators';
 import { AuthState } from '../model/auth-state';
 
 @Injectable({
@@ -43,6 +43,17 @@ export class AuthService {
     cfaSignOut()
       .pipe(tap(() => this.router.navigateByUrl('/sign-in')))
       .subscribe();
+  }
+
+  public async loggedIn(): Promise<void> {
+    return new Promise((resolve) =>
+      this.authState$
+        .pipe(
+          filter((state) => state?.resolved),
+          first()
+        )
+        .subscribe(() => resolve())
+    );
   }
 
   public get authState(): AuthState {
